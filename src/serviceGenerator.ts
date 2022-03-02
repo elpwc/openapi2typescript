@@ -355,12 +355,19 @@ class ServiceGenerator {
     return c.length > 0 ? c : null;
   };
 
-  public getTypeName(operationObject: OperationObject) {
+  public getTypeName(operationObject: OperationObject, path: string, method: string) {
     const namespace = this.config.namespace ? `${this.config.namespace}.` : '';
-    const customeTypeName = this.config?.hook?.customTypeName || this.config?.hook?.customFunctionName;
+    const customeTypeName =
+      this.config?.hook?.customTypeName || this.config?.hook?.customFunctionName;
 
     return resolveTypeName(
-      `${namespace}${customeTypeName?.(operationObject) ?? operationObject.operationId}Params`,
+      `${namespace}${
+        customeTypeName?.(operationObject) ??
+        operationObject.operationId ??
+        (operationObject.summary + '_' + path + '_' + method)
+          .replace(/[-\.,\(\)\[\]{}~!@#%\^&\*\+=\\\/\?<>'";: `]/g, '_')
+          .toLowerCase()
+      }Params`,
     );
   }
 
@@ -385,6 +392,7 @@ class ServiceGenerator {
               const body = this.getBodyTP(newApi.requestBody);
               const response = this.getResponseTP(newApi.responses);
 
+              // eslint-disable-next-line prefer-const
               let { file, ...params } = allParams || {}; // I dont't know if 'file' is valid parameter, maybe it's safe to remove it
               const newfile = this.getFileTP(newApi.requestBody);
               file = this.concatOrNull(file, newfile);
@@ -486,7 +494,7 @@ class ServiceGenerator {
               return {
                 ...newApi,
                 functionName,
-                typeName: this.getTypeName(newApi),
+                typeName: this.getTypeName(newApi, newApi.path, newApi.method),
                 path: getPrefixPath(),
                 pathInComment: formattedPath.replace(/\*/g, '&#42;'),
                 hasPathVariables: formattedPath.includes('{'),
@@ -520,7 +528,7 @@ class ServiceGenerator {
         if (genParams.length) {
           this.classNameList.push({
             fileName: className,
-            controllerName: className
+            controllerName: className,
           });
         }
         return {
@@ -645,9 +653,9 @@ class ServiceGenerator {
             const isDirectObject = ((p.schema || {}).type || p.type) === 'object';
             const refList = ((p.schema || {}).$ref || p.$ref || '').split('/');
             const ref = refList[refList.length - 1];
-            const deRefObj = (Object.entries(this.openAPIData.components && this.openAPIData.components.schemas || {}).find(
-              ([k]) => k === ref,
-            ) || []) as any;
+            const deRefObj = (Object.entries(
+              (this.openAPIData.components && this.openAPIData.components.schemas) || {},
+            ).find(([k]) => k === ref) || []) as any;
             const isRefObject = (deRefObj[1] || {}).type === 'object';
             return {
               ...p,
@@ -667,6 +675,7 @@ class ServiceGenerator {
       templateParams.path = templateParams.path || [];
       let match = null;
       while ((match = regex.exec(path))) {
+        // eslint-disable-next-line @typescript-eslint/no-loop-func
         if (!templateParams.path.some((p) => p.name === match[1])) {
           templateParams.path.push({
             ...DEFAULT_PATH_PARAM,
@@ -742,14 +751,16 @@ class ServiceGenerator {
         }
 
         if (props.length > 0) {
-          data && data.push([
-            {
-              typeName: this.getTypeName(operationObject),
-              type: 'Record<string, any>',
-              parent: undefined,
-              props: [props],
-            },
-          ]);
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+          data &&
+            data.push([
+              {
+                typeName: this.getTypeName(operationObject, p, method),
+                type: 'Record<string, any>',
+                parent: undefined,
+                props: [props],
+              },
+            ]);
         }
       });
     });

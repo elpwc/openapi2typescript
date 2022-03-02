@@ -1,39 +1,12 @@
 ## 介绍
-[![GitHub Repo stars](https://img.shields.io/github/stars/chenshuai2144/openapi2typescript?style=social)](https://github.com/chenshuai2144/openapi2typescript)
-[![npm (scoped)](https://img.shields.io/npm/v/@umijs/openapi)](https://www.npmjs.com/package/@umijs/openapi)
-![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/chenshuai2144/openapi2typescript?include_prereleases)
 
-根据 [OpenApi3](https://swagger.io/blog/news/whats-new-in-openapi-3-0/) 文档生成 request 请求代码。
+**对 [chenshuai2144 / openapi2typescript]([asd](https://github.com/chenshuai2144/openapi2typescript)) 的修改**  
+  
+原库在生成接口方法时会根据 `operationId` 生成 Params 接口名，在 Swagger 文档内没有填写 `operationId` 时，会导致所有方法的 `operationId` 被错误地生成为 `undefinedParams`。  
+本库由于项目需求，在原库的基础上修正了这个错误，在没有填写 `operationId` 时，会根据请求路径和HTTP方法生成 Params 接口名。  
+  
+随项目进展可能会有后续修改。  
 
-如果你使用 [umi](https://umijs.org) ,你可以使用[@umijs/plugin-openapi](https://www.npmjs.com/package/@umijs/plugin-openapi) 插件。
 ## 使用
-```node
-npm i --save-dev @umijs/openapi
-```
-在项目根目录新建 ```openapi.config.ts```
-```ts
-const { generateService } = require('@umijs/openapi')
 
-generateService({
-  schemaPath: 'http://petstore.swagger.io/v2/swagger.json',
-  serversPath: './servers',
-})
-
-```
-在 ```package.json``` 的 ```script``` 中添加 api: ```"openapi": "ts-node openapi.config.ts",```
-
-生成api
-```node
-npm run openapi
-```
-## 参数
-|  属性   | 必填  | 备注 | 类型 |
-|  ----  | ----  |  ----  |  ----  |
-| requestLibPath  | 否 | 自定义请求方法路径 | string |
-| requestImportStatement  | 否 | 自定义请求方法表达式 | string |
-| apiPrefix  | 否 | api 的前缀 | string |
-| serversPath  | 否 | 生成的文件夹的路径 | string |
-| schemaPath  | 否 | openAPI 3.0 的地址 | string |
-| projectName  | 否 | 项目名称 | string |
-| namespace  | 否 | 命名空间名称 | string |
-| mockFolder  | 否 | mock目录 | string |
+使用方法同 [chenshuai2144 / openapi2typescript]([asd](https://github.com/chenshuai2144/openapi2typescript))  
