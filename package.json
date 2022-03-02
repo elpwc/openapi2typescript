@@ -1,5 +1,5 @@
 {
-  "name": "wnikoopenapi2ts",
+  "name": "wnikoopenapi2typescript",
   "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elpwc/wnikoOpenapi2ts.git"
+    "url": "git+https://github.com/elpwc/wnikoopenapi2typescript.git"
   },
   "author": "elpwc@hotmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/elpwc/wnikoOpenapi2ts/issues"
+    "url": "https://github.com/elpwc/wnikoopenapi2typescript/issues"
   },
-  "homepage": "https://github.com/elpwc/wnikoOpenapi2ts#readme",
+  "homepage": "https://github.com/elpwc/wnikoopenapi2typescript#readme",
   "dependencies": {
     "@umijs/fabric": "^2.5.6",
     "dayjs": "^1.10.3",

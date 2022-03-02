@@ -9,4 +9,8 @@
 
 ## 使用
 
+```
+npm i --save-dev wnikoopenapi2typescript
+```
+
 使用方法同 [chenshuai2144 / openapi2typescript]([asd](https://github.com/chenshuai2144/openapi2typescript))  
