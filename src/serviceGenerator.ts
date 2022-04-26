@@ -54,7 +54,7 @@ const resolveTypeName = (typeName: string) => {
   if (ReservedDict.check(typeName)) {
     return `__openAPI__${typeName}`;
   }
-  const typeLastName = typeName.split('/').pop().split('.').pop();
+  const typeLastName = typeName ? typeName.split('/').pop().split('.').pop() : 'default';
 
   const name = typeLastName
     .replace(/[-_ ](\w)/g, (_all, letter) => letter.toUpperCase())
